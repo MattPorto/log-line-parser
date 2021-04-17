@@ -11,13 +11,21 @@ module DataExtractors
 
     def extract_data(line)
       path, _ip = line.split(' ')
-      @result[path] ||= { path: path, hits: 0, uniques: 0 }
-      @result[path][:hits] += 1
+      add_path_to_result path
+      increment_path_hits path
     end
 
     def empty_line_error
       add_error_base
       @result[:errors].push({ message: 'File have empty lines.' })
+    end
+
+    def add_path_to_result(path)
+      @result[path] ||= { path: path, hits: 0, uniques: 0 }
+    end
+
+    def increment_path_hits(path)
+      @result[path][:hits] += 1
     end
   end
 end
