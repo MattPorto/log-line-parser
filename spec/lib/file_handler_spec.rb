@@ -3,11 +3,11 @@
 require 'spec_helper'
 require 'file_handler'
 
-describe 'FileHandler - Validations' do
+describe FileHandler do
   let(:basic_log_path) { 'spec/fixtures/basic.log' }
   let(:complex_log_path) { 'spec/fixtures/webserver.log' }
   subject(:options) { { file_path: log_path } }
-  subject(:call_scope) { FileHandler.new(options).call }
+  subject(:call_scope) { described_class.new(options).call }
   subject(:result) { call_scope }
 
   context 'with a simple file' do

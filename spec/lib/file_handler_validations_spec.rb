@@ -4,14 +4,13 @@ require 'spec_helper'
 require 'file_handler'
 
 # A extension of file handler spec that handle error scenarios
-describe FileHandler do
+describe 'FileHandler - Validations' do
   let(:basic_log_path) { 'spec/fixtures/basic.log' }
-  subject(:options) { { file_path: log_path } }
-  subject(:call_scope) { described_class.new(options).call }
+  subject(:options) { { file_path: '' } }
+  subject(:call_scope) { FileHandler.new(options).call }
   subject(:result) { call_scope }
 
   context 'validations' do
-    let(:log_path) { '' }
     subject(:first_error) { result[:errors][0] }
 
     it 'no filepath' do

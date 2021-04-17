@@ -6,8 +6,8 @@ require 'optparse'
 
 option_parser = OptionParser.new do |opts|
   opts.banner = 'Usage: run.rb [options]'
-  opts.on '-f', '--file', 'LogFile to be parsed'
-  opts.on '-t', '--total', 'Show the total of hits on path (include repeated addresses)'
+  opts.on '-f', '--file_path=FILEPATH', 'Log file path to be parsed'
+  opts.on '-t', '--hits', 'Show the total of hits on path (include repeated addresses)'
   opts.on '-u', '--uniques', 'Show only unique hits on path'
   opts.on '-a', '--all', 'Show unique hits and total hits on path'
 
@@ -19,6 +19,4 @@ end
 
 options = {}
 option_parser.parse!(into: options)
-
-options
-
+FileHandler.new(options).call
