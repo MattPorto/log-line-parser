@@ -11,11 +11,18 @@ describe FileHandler do
   context 'data collect' do
     let(:log_path) { basic_log_path }
 
-    it 'get hits' do
+    it 'hits' do
       result = call_scope
 
       expect(result.keys).to eq %w[/help_page/1 /contact /home]
-      expect(result['/help_page/1'][:hits]).to eq 1
+      expect(result['/help_page/1'][:hits]).to eq 3
+    end
+
+    it 'uniques' do
+      result = call_scope
+      first_key = result.keys.first
+
+      expect(result[first_key][:uniques]).to eq 1
     end
   end
 
@@ -27,6 +34,15 @@ describe FileHandler do
 
       expect(result.keys).to include :errors
       expect(result[:errors][0][:message]).to eq 'Please provide a file to be analysed.'
+    end
+
+    it 'empty lines' do
+      options[:file_path] = 'spec/fixtures/with-empty-lines.log'
+
+      result = call_scope
+
+      expect(result.keys).to include :errors
+      expect(result[:errors][0][:message]).to eq 'File have empty lines.'
     end
   end
 end

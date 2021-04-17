@@ -9,6 +9,7 @@ class FileHandler
   def initialize(options)
     @file_path = options[:file_path]
     @result = {}
+    @ip_records = {}
   end
 
   def call
