@@ -20,31 +20,4 @@ describe 'command line interface' do
     subject { parsed_stdout[1..parsed_stdout.size] }
     it { is_expected.to eq commands_list }
   end
-
-  context 'features' do
-    subject { parsed_stdout }
-
-    context 'hits' do
-      let(:stdout) { Open3.capture2(command, "-f#{log_file}", '-t')[0] }
-      let!(:expected_result) { ['/help_page/1 3 hit(s)', '/contact 1 hit(s)', '/home 1 hit(s)'] }
-
-      it { is_expected.to eq expected_result }
-    end
-
-    context 'uniques' do
-      let(:stdout) { Open3.capture2(command, "-f#{log_file}", '-u')[0] }
-      let!(:expected_result) { ['/help_page/1 1 unique(s)', '/contact 1 unique(s)', '/home 1 unique(s)'] }
-
-      it { is_expected.to eq expected_result }
-    end
-
-    context 'all' do
-      let(:stdout) { Open3.capture2(command, "-f#{log_file}", '-a')[0] }
-      let!(:expected_result) do
-        ['/help_page/1 3 hit(s), 1 unique(s)', '/contact 1 hit(s), 1 unique(s)', '/home 1 hit(s), 1 unique(s)']
-      end
-
-      it { is_expected.to eq expected_result }
-    end
-  end
 end
