@@ -3,43 +3,30 @@
 require 'spec_helper'
 require 'file_handler'
 
-describe FileHandler do
+describe 'FileHandler - Validations' do
   let(:basic_log_path) { 'spec/fixtures/basic.log' }
+  let(:complex_log_path) { 'spec/fixtures/webserver.log' }
   subject(:options) { { file_path: log_path } }
-  subject(:call_scope) { described_class.new(options).call }
+  subject(:call_scope) { FileHandler.new(options).call }
   subject(:result) { call_scope }
 
-  context 'data collect' do
+  context 'with a simple file' do
     let(:log_path) { basic_log_path }
     subject(:result_first) { result['/help_page/1'] }
 
-    it 'count hits and uniques' do
+    it 'collect data' do
       expect(result_first[:hits]).to eq 3
       expect(result_first[:uniques]).to eq 1
     end
   end
 
-  context 'validations' do
-    let(:log_path) { '' }
-    subject(:first_error) { result[:errors][0] }
+  context 'with a complex file' do
+    let(:log_path) { complex_log_path }
+    subject(:result_home) { result['/home'] }
 
-    it 'no filepath' do
-      expect(first_error[:message]).to eq 'Please provide a file to be analysed.'
-    end
-
-    it 'empty file' do
-      options[:file_path] = 'spec/fixtures/empty.log'
-      expect(first_error[:message]).to eq 'File is empty.'
-    end
-
-    it 'empty lines' do
-      options[:file_path] = 'spec/fixtures/with-empty-lines.log'
-      expect(first_error[:message]).to eq 'File have empty lines.'
-    end
-
-    it 'malformed lines' do
-      options[:file_path] = 'spec/fixtures/malformed-lines.log'
-      expect(first_error[:message]).to eq 'File have malformed lines.'
+    it 'collect data' do
+      expect(result_home[:hits]).to eq 78
+      expect(result_home[:uniques]).to eq 23
     end
   end
 end
