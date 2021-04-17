@@ -13,11 +13,8 @@ describe FileHandler do
     let(:log_path) { basic_log_path }
     subject(:result_first) { result['/help_page/1'] }
 
-    it 'hits' do
+    it 'count hits and uniques' do
       expect(result_first[:hits]).to eq 3
-    end
-
-    it 'uniques' do
       expect(result_first[:uniques]).to eq 1
     end
   end
@@ -38,6 +35,11 @@ describe FileHandler do
     it 'empty lines' do
       options[:file_path] = 'spec/fixtures/with-empty-lines.log'
       expect(first_error[:message]).to eq 'File have empty lines.'
+    end
+
+    it 'malformed lines' do
+      options[:file_path] = 'spec/fixtures/malformed-lines.log'
+      expect(first_error[:message]).to eq 'File have malformed lines.'
     end
   end
 end

@@ -3,11 +3,15 @@
 module DataExtractors
   # responsible to handle line content extractor methods
   module Line
+    # require 'resolv' (see valid_ip_address method)
+
     def valid_data(line)
-      # @ToDo: add line index arg, so system can specify which line is empty;
-      #   add also malformed log lines checker
-      parsed_line = line.gsub("\n", '')
-      parsed_line.empty? ? empty_line_error : true
+      # @ToDo: add line index arg, so the system can specify which line is with error;
+      if line.gsub("\n", '').empty?
+        empty_line_error
+      elsif !valid_format(line) then malformed_line_error
+      else true
+      end
     end
 
     def extract_data(line)
@@ -42,6 +46,21 @@ module DataExtractors
     def add_ip_to_records(path, ip)
       @ip_records[path].push ip
       true
+    end
+
+    def valid_format(line)
+      line.count(' ').eql?(1) && valid_ip_address(line.split(' ').last)
+    end
+
+    def valid_ip_address(ip)
+      # ip_format_regex = Regexp.union Resolv::IPv4::Regex, Resolv::IPv6::Regex (for real ip addresses)
+      ip_format_regex = /(\d{1,3}\.?){4}/
+      ip.match? ip_format_regex
+    end
+
+    def malformed_line_error
+      add_error_base
+      @result[:errors].push({ message: 'File have malformed lines.' })
     end
   end
 end
