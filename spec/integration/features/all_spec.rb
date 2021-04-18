@@ -10,7 +10,7 @@ describe 'features - all' do
   subject { parsed_stdout }
   let(:stdout) { Open3.capture2(command, "-f#{log_file}", '-a')[0] }
   let!(:expected_result) do
-    ['/help_page/1 3 hit(s), 1 unique(s)', '/contact 1 hit(s), 1 unique(s)', '/home 1 hit(s), 1 unique(s)']
+    ['/help_page/1 3 hit(s), 1 unique(s)', '/home 1 hit(s), 1 unique(s)', '/contact 1 hit(s), 1 unique(s)']
   end
 
   it { is_expected.to eq expected_result }

@@ -11,7 +11,7 @@ describe 'features - uniques' do
   subject { parsed_stdout }
 
   let(:stdout) { Open3.capture2(command, "-f#{log_file}", '-u')[0] }
-  let!(:expected_result) { ['/help_page/1 1 unique(s)', '/contact 1 unique(s)', '/home 1 unique(s)'] }
+  let!(:expected_result) { ['/home 1 unique(s)', '/contact 1 unique(s)', '/help_page/1 1 unique(s)'] }
 
   it { is_expected.to eq expected_result }
 end

@@ -33,7 +33,7 @@ class FileHandler
   end
 
   def handle_response
-    return nil if file_has_errors
+    return error_response if file_has_errors
 
     if options[:hits]
       result_printer content: :hits
@@ -46,12 +46,29 @@ class FileHandler
 
   def result_printer(content: :default)
     case content
-    when :hits
-      @result.each { |_k, r| puts "#{r[:path]} #{r[:hits]} hit(s)" }
-    when :uniques
-      @result.each { |_k, r| puts "#{r[:path]} #{r[:uniques]} unique(s)" }
-    else
-      @result.each { |_k, r| puts "#{r[:path]} #{r[:hits]} hit(s), #{r[:uniques]} unique(s)" }
+    when :hits then hits_printer
+    when :uniques then uniques_printer
+    else default_printer
     end
+  end
+
+  def error_response
+    @result[:errors].each { |e| puts "Error: #{e[:message]}" }
+  end
+
+  def sorted_result(key: :hits)
+    @result.sort_by { |_k, r| r[key] }.reverse
+  end
+
+  def hits_printer
+    sorted_result.each { |_k, r| puts "#{r[:path]} #{r[:hits]} hit(s)" }
+  end
+
+  def uniques_printer
+    sorted_result(key: :uniques).each { |_k, r| puts "#{r[:path]} #{r[:uniques]} unique(s)" }
+  end
+
+  def default_printer
+    sorted_result.each { |_k, r| puts "#{r[:path]} #{r[:hits]} hit(s), #{r[:uniques]} unique(s)" }
   end
 end
