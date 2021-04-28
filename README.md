@@ -22,6 +22,7 @@ Just go to root folder and run `ruby run.rb -h` to see available commands:
     -h, --help                       Show commands list
 ```
 
+ie:
 ```
 ruby run.rb -fspec/fixtures/webserver.log -a                                                                                                                                                          G:main[5Mi] 485978a ⭑ ?
 /about/2 90 hit(s), 22 unique(s)
