@@ -44,4 +44,4 @@ To execute the test suite, just run `rspec` (note that you need to run `bundle i
 into modules designed just for it. This could make the `file_handler` class and `data_extractors/line` module tons more readable, and easier to understand and maintain;
 * We should improve test coverage, since many of the render methods are not covered;
 * We should not read the whole file at once;
-
+* Accept more log formats
