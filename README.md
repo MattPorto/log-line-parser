@@ -41,7 +41,7 @@ To execute the test suite, just run `rspec` (note that you need to run `bundle i
 ## Next Steps
 ### Potential Improvements
 * We could break the architecture to make the code even more readable, separating for example the methods responsibles to handle errors or render results
-into modules designed just for it. This could make the `file_handler` class and `data_extractors/line` module tons more readable, and easier to understand and maintain.
-* We should improve test coverage, since many of the render methods are not covered.
-
+into modules designed just for it. This could make the `file_handler` class and `data_extractors/line` module tons more readable, and easier to understand and maintain;
+* We should improve test coverage, since many of the render methods are not covered;
+* We should not read the whole file at once;
 
